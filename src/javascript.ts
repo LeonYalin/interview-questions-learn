@@ -173,6 +173,7 @@ function javasctiptQuestions() {
   
       -> Hoisting is a process of splitting the variable deslaration (moving to the top of the scope) and initialization (in the same place).
         "var a = 12" will be splitted to "var a" and "a = 12". "var a" will be moved to the top of the scope. 
+      
       =========================================================
       
       - Classical vs Prototype Inheritance

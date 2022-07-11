@@ -1,4 +1,5 @@
 import arrays from "./arrays";
+import react from "./react";
 import recursion from "./recursion";
 import strings from "./strings";
 
@@ -6,4 +7,5 @@ import strings from "./strings";
   arrays();
   strings();
   recursion();
+  react();
 }());
