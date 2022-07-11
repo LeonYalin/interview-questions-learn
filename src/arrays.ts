@@ -11,8 +11,6 @@ function arraysQuestions() {
     - Reverse an array
     - Find second max
     `);
-
-  log('find duplicates');
 }
 
 export default function arrays() {

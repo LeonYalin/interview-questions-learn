@@ -5,11 +5,8 @@ function stringsQuestions() {
     Strings questions:
 
     - Anagram
-    - Palimdrome
-    - Permutations
+    - Palindrome
     `);
-
-  log('find duplicates');
 }
 
 export default function strings() {
