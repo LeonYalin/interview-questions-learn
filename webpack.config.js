@@ -12,7 +12,7 @@ const plugins = [
   }),
   new HtmlWebpackPlugin({
     title: 'Typescript Webpack Starter',
-    template: '!!ejs-loader!src/index.html'
+    template: '!!ejs-loader!index.html'
   }),
   new webpack.LoaderOptionsPlugin({
     options: {
