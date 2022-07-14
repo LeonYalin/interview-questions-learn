@@ -55,52 +55,97 @@ export class Queue<T> implements Collection<T> {
     this.items = [];
   }
 }
-type Node<T> = { data: T; next: Node<T> };
+export class Node<T> {
+  data: T;
+  next: Node<T>;
+  constructor(data: T = null) {
+    this.data = data;
+    this.next = null;
+  }
+}
 
 export class LinkedList<T> implements Collection<T> {
-  private items: T[];
+  private length = 0;
   private node: Node<T>;
-  constructor() {
-    this.node = this.createNode();
-  }
-
-  createNode<T>(data: T = null): Node<T> {
-    return { data, next: null };
-  }
-
-  hasNext(node: Node<T>) {
-    return !!node.next;
+  constructor(node: Node<T> = null) {
+    this.node = node;
   }
 
   addFirst(data: T) {
-    this.node = this.createNode(data);
+    if (!this.node) {
+      this.node = new Node(data);
+    } else {
+      const node = new Node(data);
+      node.next = this.node;
+      this.node = node;
+    }
+    this.length++;
   }
   addLast(data: T) {
+    if (!this.node) {
+      this.node = new Node(data);
+    } else {
+      let curr = this.node;
+      while (curr.next) {
+        curr = curr.next;
+      }
+      curr.next = new Node(data);
+    }
+    this.length++;
+  }
+  removeFirst(): Node<T> {
+    if (!this.node) {
+      return null;
+    } else {
+      const firstNode = this.node;
+      const nextNode = this.node.next;
+      this.node = nextNode;
+      this.length--;
+      return firstNode;
+    }
+  }
+  removeLast(): Node<T> {
+    if (!this.node) {
+      return null;
+    } else {
+      let curr = this.node;
+      let prev = null;
+      while (curr.next) {
+        prev = curr;
+        curr = curr.next;
+      }
+      prev.next = null;
+      this.length--;
+      return curr;
+    }
+  }
+  getFirst(): Node<T> {
+    return this.node;
+  }
+  getLast(): Node<T> {
     let curr = this.node;
-    while (this.hasNext(curr)) {
+    while (curr.next) {
       curr = curr.next;
     }
-    curr.next = this.createNode(data);
+    return curr;
   }
-  // removeFirst(): T {
-  //   // return this.items.shift();
-  // }
-  // removeLast(): T {
-  //   // return this.items[this.items.length - 1];
-  // }
-  // getFirst(): T {
-  //   // return this.items.shift();
-  // }
-  // getLast(): T {
-  //   // return this.items[this.items.length - 1];
-  // }
+  print() {
+    let msg = '';
+    let curr = this.node;
+    msg += `${curr.data}`;
+    while (curr.next) {
+      curr = curr.next;
+      msg += `->${curr.data}`;
+    }
+    return msg;
+  }
   size(): number {
-    return this.items.length;
+    return this.length;
   }
   empty(): boolean {
-    return this.items.length === 0;
+    return this.length === 0;
   }
   clear(): void {
-    this.items = [];
+    this.node = new Node();
   }
 }

@@ -40,7 +40,7 @@ function queueUsingTwoStacks() {
         return el;
       }
       peek(): T {
-        return this.stack1.peek():
+        return this.stack1.peek();
       }
       size(): number {
         return this.stack1.size();
