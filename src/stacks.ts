@@ -14,7 +14,7 @@ function queueUsingTwoStacks() {
   type InputData = {};
   type ExpectedData = boolean;
 
-  function alg({}: InputData) {
+  function alg({}: InputData): ExpectedData {
     class QueueWithStacks<T> {
       private stack1: Stack<T>;
       private stack2: Stack<T>;

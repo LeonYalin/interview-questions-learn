@@ -14,7 +14,7 @@ function anagram() {
   type InputData = { str1: string; str2: string };
   type ExpectedData = boolean;
 
-  function alg({ str1, str2 }: InputData) {
+  function alg({ str1, str2 }: InputData): ExpectedData {
     if (!str1 || !str2 || str1.length !== str2.length) return false;
 
     const firstStr = str1.trim().toLowerCase();
@@ -44,7 +44,7 @@ function palindrome() {
   type InputData = { str: string };
   type ExpectedData = boolean;
 
-  function alg({ str }: InputData) {
+  function alg({ str }: InputData): ExpectedData {
     if (!str) return false;
 
     for (let i = 0; i < str.length / 2; i++) {

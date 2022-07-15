@@ -1,4 +1,4 @@
-import { LinkedList, Node } from './structure-utils';
+import { LinkedList, LinkedListNode } from './structure-utils';
 import { runTests, TestData } from './test-utils';
 import { delimeterMsg, log, logF, logToHTML } from './utils';
 
@@ -14,12 +14,12 @@ function reverseLinkedList() {
   type InputData = { ll: LinkedList<string> };
   type ExpectedData = string;
 
-  function alg({ ll }: InputData) {
+  function alg({ ll }: InputData): ExpectedData {
     if (!ll.size()) return '';
 
     let head = ll.getFirst();
     let curr = head;
-    let prev: Node<string> = null;
+    let prev: LinkedListNode<string> = null;
     while (head.next) {
       head = head.next;
       curr.next = prev;

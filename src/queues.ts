@@ -14,7 +14,7 @@ function stackUsingTwoQueues() {
   type InputData = {};
   type ExpectedData = boolean;
 
-  function alg({}: InputData) {
+  function alg({}: InputData): ExpectedData {
     class StackWithQueues<T> {
       private queue1: Queue<T>;
       private queue2: Queue<T>;

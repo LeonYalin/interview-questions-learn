@@ -18,7 +18,7 @@ function leftRotation() {
   type InputData = { arr: number[]; n: number };
   type ExpectedData = number[];
 
-  function alg({ arr, n }: InputData) {
+  function alg({ arr, n }: InputData): ExpectedData {
     if (!arr || !arr.length || !n || arr.length === n) {
       return arr;
     }
@@ -44,7 +44,7 @@ function findMissingNumber() {
   type InputData = { arr: number[] };
   type ExpectedData = number;
 
-  function alg({ arr }: InputData) {
+  function alg({ arr }: InputData): ExpectedData {
     if (!arr || arr.length < 2) return 0;
 
     let expectedSum = 0;
@@ -66,7 +66,7 @@ function findPairWithGivenSum() {
   type InputData = { arr: number[]; sum: number };
   type ExpectedData = [number, number];
 
-  function alg({ arr, sum }: InputData) {
+  function alg({ arr, sum }: InputData): ExpectedData {
     for (let i = 0; i < arr.length; i++) {
       for (let j = 0; j < arr.length; j++) {
         if (i !== j && arr[i] + arr[j] === sum) {
@@ -88,7 +88,7 @@ function reverseAnArray() {
   type InputData = { arr: string[] };
   type ExpectedData = string[];
 
-  function alg({ arr }: InputData) {
+  function alg({ arr }: InputData): ExpectedData {
     if (!arr || !arr.length) return [];
 
     const resArr = Array(arr.length).fill(0);
@@ -113,7 +113,7 @@ function findDuplicates() {
   type InputData = { arr: string[] };
   type ExpectedData = string[];
 
-  function alg({ arr }: InputData) {
+  function alg({ arr }: InputData): ExpectedData {
     if (!arr || !arr.length) return [];
 
     const resArr: string[] = [];
@@ -141,7 +141,7 @@ function findSecondMax() {
   type InputData = { arr: number[] };
   type ExpectedData = number;
 
-  function alg({ arr }: InputData) {
+  function alg({ arr }: InputData): ExpectedData {
     if (!arr || !arr.length) return 0;
 
     let max = 0;
