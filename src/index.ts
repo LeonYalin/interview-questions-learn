@@ -1,4 +1,5 @@
 import arrays from "./arrays";
+import javascript from "./javascript";
 import linkedLists from "./linked-lists";
 import nodejs from "./nodejs";
 import queues from "./queues";
@@ -14,6 +15,7 @@ import strings from "./strings";
   queues();
   linkedLists();
   recursion();
+  javascript();
   react();
   nodejs();
 }());

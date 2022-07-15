@@ -1,4 +1,5 @@
-import { delimeterMsg, log, logF, logToHTML } from "./utils";
+import { runTests, TestData } from './test-utils';
+import { delimeterMsg, log, logF, logToHTML } from './utils';
 
 function javasctiptQuestions() {
   logToHTML(`
@@ -186,7 +187,80 @@ function javasctiptQuestions() {
     `);
 }
 
-export default function strings() {
+function interviewProblems() {
+  logToHTML(`
+    Interview problems:
+
+    - Add spaces between chars in the string ${addSpaces()}
+    - Wrap a console.log function in a custom function and print its arguments ${myLog()}
+    - Use bind method to fix the indefined log ${useBindToFixLog()}
+    - Implement myBind() ${myBind()}
+    `);
+}
+
+function addSpaces() {
+  type InputData = { str: string };
+  type ExpectedData = string;
+
+  function alg({ str }: InputData): ExpectedData {
+    if (!str || str.length < 2) return str;
+
+    return str.split('').join(' ');
+
+    // implementation on String prototype
+    // String.prototype.addSpaces = function() {
+    //   return this.split('').join(' ');
+    // }
+  }
+
+  const testData: TestData<InputData, ExpectedData> = [
+    { input: { str: 'hello' }, expected: 'h e l l o' },
+    { input: { str: 'world' }, expected: 'w o r l d' },
+  ];
+  runTests(alg, testData);
+}
+
+function myLog() {
+  function mylogUsingRest(...args: any[]) {
+    const finalArgs = [44, ...args]; // 44 as example of customizing the output
+    console.log(...finalArgs);
+  }
+  // mylogUsingRest(11, 22, 33);
+
+  function myLogUsingArguments() {
+    var args = Array.prototype.slice.call(arguments); // arguments is a array-like object
+    args.unshift(44);
+    console.log.apply(null, args); // call a function with an array of arguments
+  }
+}
+
+function useBindToFixLog() {
+  var obj = {
+    count: 5,
+    getCount: function () {
+      console.log(this.count);
+    },
+  };
+  obj.getCount();
+  var func = obj.getCount;
+  // func(); // fails
+  const boundedfunc = func.bind({count: 10}); // or func.bind(obj);
+  console.log(boundedfunc());
+
+}
+
+function myBind() {
+  Function.prototype['mybind'] = function(ctx: any) {
+    const fn = this;
+    return function() {
+      return fn.apply(ctx, arguments);
+    }
+  }
+  delete Function.prototype['mybind']; // cleanup
+}
+
+export default function javascript() {
   delimeterMsg('JAVASCRIPT');
   logF(javasctiptQuestions);
+  logF(interviewProblems);
 }
