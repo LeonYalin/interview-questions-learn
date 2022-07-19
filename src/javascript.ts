@@ -195,6 +195,7 @@ function interviewProblems() {
     - Wrap a console.log function in a custom function and print its arguments ${myLog()}
     - Use bind method to fix the indefined log ${useBindToFixLog()}
     - Implement myBind() ${myBind()}
+    - Find top k passwords from list() ${topKPasswords()}
     `);
 }
 
@@ -244,19 +245,70 @@ function useBindToFixLog() {
   obj.getCount();
   var func = obj.getCount;
   // func(); // fails
-  const boundedfunc = func.bind({count: 10}); // or func.bind(obj);
+  const boundedfunc = func.bind({ count: 10 }); // or func.bind(obj);
   console.log(boundedfunc());
-
 }
 
 function myBind() {
-  Function.prototype['mybind'] = function(ctx: any) {
+  Function.prototype['mybind'] = function (ctx: any) {
     const fn = this;
-    return function() {
+    return function () {
       return fn.apply(ctx, arguments);
-    }
-  }
+    };
+  };
   delete Function.prototype['mybind']; // cleanup
+}
+
+function topKPasswords() {
+  type InputData = { list: string[]; k: number };
+  type ExpectedData = string[];
+
+  function alg({ list, k }: InputData): ExpectedData {
+    if (!list || list.length < 2 || k < 2) return list;
+
+    const hash = {};
+    list.forEach(pass => {
+      if (!hash[pass]) {
+        hash[pass] = 1;
+      } else {
+        hash[pass] = hash[pass] + 1;
+      }
+    });
+    const topKValues: number[] = Object.values(hash);
+    const sorted = topKValues.sort((a,b) => b - a).slice(0, k);
+    const topKKeys = [];
+    for (let [k, v] of Object.entries(hash)) {
+      if (sorted.includes(<number>v)) {
+        topKKeys.push(k);
+      }
+    }
+    return topKKeys;
+
+    // Theoretical question: is there are milliards of passwords, how do you process the function?
+    // solution: break into smaller arrays and run on cloud, then use hashing (Interviewer explanation, need to dig further)
+
+    // Explain Promise, what is it used for and why do we need it
+    // is there another way to create a promise?
+
+    // paralel([
+    //   (done) => setTimeout(() => done('a'), 1000),
+    //   (done) => setTimeout(() => done('b'), 300)
+    //   ],
+    //   (results) => console.log(results)
+    //   );
+
+    //   //fill in:
+    //   function paralel(asyncFooArray, onAllDone) {
+    //       asyncFooArray.forEach((foo) => foo(onAllDone))
+    //       console.log("Me first log")
+    //   }
+  }
+
+  const testData: TestData<InputData, ExpectedData> = [
+    { input: { list: ['1', '1', '1', '2', '2', '3', '4'], k: 2 }, expected: ['1', '2'] },
+    { input: { list: ['a', 'a', 'b', 'a', 'c', 'b', 'a', 'c', 'd'], k: 3 }, expected: ['a', 'b', 'c'] },
+  ];
+  runTests(alg, testData);
 }
 
 export default function javascript() {
