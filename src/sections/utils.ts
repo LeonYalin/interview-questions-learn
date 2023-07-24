@@ -21,7 +21,7 @@ function log(...args: any[]) {
   console.log(...msgs);
 }
 
-function logF(f: Function, ...args: any) {
+function logF(f: (...args: any) => void, ...args: any) {
   const name = splitToWords(f.name);
   log('color_darkgoldenrod', name);
   logToHTML(name, 'title');

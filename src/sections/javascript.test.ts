@@ -1,5 +1,4 @@
-import { runTests, TestData } from './test-utils';
-import { delimeterMsg, log, logF, logToHTML } from './utils';
+import { delimeterMsg, logToHTML } from './utils';
 
 function javasctiptQuestions() {
   logToHTML(`
@@ -187,55 +186,49 @@ function javasctiptQuestions() {
     `);
 }
 
-function interviewProblems() {
-  logToHTML(`
-    Interview problems:
+describe('JavaScript questions', () => {
+  it('Add spaces between chars in the string', () => {
+    type InputData = { str: string };
+    type ExpectedData = string;
 
-    - Add spaces between chars in the string ${addSpaces()}
-    - Wrap a console.log function in a custom function and print its arguments ${myLog()}
-    - Use bind method to fix the indefined log ${useBindToFixLog()}
-    - Implement myBind() ${myBind()}
-    - Find top k passwords from list() ${topKPasswords()}
-    `);
-}
+    function alg({ str }: InputData): ExpectedData {
+      if (!str || str.length < 2) return str;
 
-function addSpaces() {
-  type InputData = { str: string };
-  type ExpectedData = string;
+      return str.split('').join(' ');
 
-  function alg({ str }: InputData): ExpectedData {
-    if (!str || str.length < 2) return str;
+      // implementation on String prototype
+      // String.prototype.addSpaces = function() {
+      //   return this.split('').join(' ');
+      // }
+    }
 
-    return str.split('').join(' ');
+    const testData = [
+      { input: { str: 'hello' }, expected: 'h e l l o' },
+      { input: { str: 'world' }, expected: 'w o r l d' },
+    ];
+    testData.forEach((data) => expect(alg(data.input)).toEqual(data.expected));
+  });
 
-    // implementation on String prototype
-    // String.prototype.addSpaces = function() {
-    //   return this.split('').join(' ');
-    // }
-  }
+  it('Wrap a console.log function in a custom function and print its arguments', () => {
+    function mylogUsingRest(...args: any[]) {
+      const finalArgs = [44, ...args]; // 44 as example of customizing the output
+      console.log(...finalArgs);
+    }
+    // mylogUsingRest(11, 22, 33);
 
-  const testData: TestData<InputData, ExpectedData> = [
-    { input: { str: 'hello' }, expected: 'h e l l o' },
-    { input: { str: 'world' }, expected: 'w o r l d' },
-  ];
-  runTests(alg, testData);
-}
+    function myLogUsingArguments() {
+      // eslint-disable-next-line prefer-rest-params
+      const args = Array.prototype.slice.call(arguments); // arguments is a array-like object
+      args.unshift(44);
+      console.log.apply(null, args); // call a function with an array of arguments
+    }
 
-function myLog() {
-  function mylogUsingRest(...args: any[]) {
-    const finalArgs = [44, ...args]; // 44 as example of customizing the output
-    console.log(...finalArgs);
-  }
-  // mylogUsingRest(11, 22, 33);
+    expect(true).toEqual(true);
+  });
+});
 
-  function myLogUsingArguments() {
-    var args = Array.prototype.slice.call(arguments); // arguments is a array-like object
-    args.unshift(44);
-    console.log.apply(null, args); // call a function with an array of arguments
-  }
-}
-
-function useBindToFixLog() {
+it('Use bind method to fix the indefined log', () => {
+  // eslint-disable-next-line no-var
   var obj = {
     count: 5,
     getCount: function () {
@@ -243,23 +236,30 @@ function useBindToFixLog() {
     },
   };
   obj.getCount();
+  // eslint-disable-next-line no-var
   var func = obj.getCount;
   // func(); // fails
   const boundedfunc = func.bind({ count: 10 }); // or func.bind(obj);
   console.log(boundedfunc());
-}
 
-function myBind() {
+  expect(true).toEqual(true);
+});
+
+it('Implement myBind()', () => {
   Function.prototype['mybind'] = function (ctx: any) {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const fn = this;
     return function () {
+      // eslint-disable-next-line prefer-rest-params
       return fn.apply(ctx, arguments);
     };
   };
   delete Function.prototype['mybind']; // cleanup
-}
 
-function topKPasswords() {
+  expect(true).toEqual(true);
+});
+
+it('Find top k passwords from list()', () => {
   type InputData = { list: string[]; k: number };
   type ExpectedData = string[];
 
@@ -267,7 +267,7 @@ function topKPasswords() {
     if (!list || list.length < 2 || k < 2) return list;
 
     const hash = {};
-    list.forEach(pass => {
+    list.forEach((pass) => {
       if (!hash[pass]) {
         hash[pass] = 1;
       } else {
@@ -275,9 +275,9 @@ function topKPasswords() {
       }
     });
     const topKValues: number[] = Object.values(hash);
-    const sorted = topKValues.sort((a,b) => b - a).slice(0, k);
+    const sorted = topKValues.sort((a, b) => b - a).slice(0, k);
     const topKKeys = [];
-    for (let [k, v] of Object.entries(hash)) {
+    for (const [k, v] of Object.entries(hash)) {
       if (sorted.includes(<number>v)) {
         topKKeys.push(k);
       }
@@ -304,15 +304,19 @@ function topKPasswords() {
     //   }
   }
 
-  const testData: TestData<InputData, ExpectedData> = [
-    { input: { list: ['1', '1', '1', '2', '2', '3', '4'], k: 2 }, expected: ['1', '2'] },
-    { input: { list: ['a', 'a', 'b', 'a', 'c', 'b', 'a', 'c', 'd'], k: 3 }, expected: ['a', 'b', 'c'] },
+  const testData = [
+    {
+      input: { list: ['1', '1', '1', '2', '2', '3', '4'], k: 2 },
+      expected: ['1', '2'],
+    },
+    {
+      input: { list: ['a', 'a', 'b', 'a', 'c', 'b', 'a', 'c', 'd'], k: 3 },
+      expected: ['a', 'b', 'c'],
+    },
   ];
-  runTests(alg, testData);
-}
+  testData.forEach((data) => expect(alg(data.input)).toEqual(data.expected));
+});
 
 export default function javascript() {
   delimeterMsg('JAVASCRIPT');
-  logF(javasctiptQuestions);
-  logF(interviewProblems);
 }

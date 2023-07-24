@@ -1,36 +1,27 @@
-import { runTests, TestData } from './test-utils';
-import { delimeterMsg, log, logF, logToHTML } from './utils';
+import { delimeterMsg } from './utils';
 
-function recursionQuestions() {
-  logToHTML(`
-    Recursion questions:
+describe('Recursion questions', () => {
+  it('Fibonacci', () => {
+    type InputData = { num: number };
+    type ExpectedData = number;
 
-    - Fibonacci ${fibonacci()}
-    - Factorial ${factorial()}
-    - Permutations ${permutations()}
-    `);
-}
+    function alg({ num }: InputData): ExpectedData {
+      if (num === 0) return 0;
+      if (num === 1) return 1;
 
-function fibonacci() {
-  type InputData = { num: number };
-  type ExpectedData = number;
+      return alg({ num: num - 1 }) + alg({ num: num - 2 });
+    }
 
-  function alg({ num }: InputData): ExpectedData {
-    if (num === 0) return 0;
-    if (num === 1) return 1;
+    const testData = [
+      { input: { num: 9 }, expected: 34 },
+      { input: { num: 8 }, expected: 21 },
+      { input: { num: 12 }, expected: 144 },
+    ];
+    testData.forEach((data) => expect(alg(data.input)).toEqual(data.expected));
+  });
+});
 
-    return alg({ num: num - 1 }) + alg({ num: num - 2 });
-  }
-
-  const testData: TestData<InputData, ExpectedData> = [
-    { input: { num: 9 }, expected: 34 },
-    { input: { num: 8 }, expected: 21 },
-    { input: { num: 12 }, expected: 144 },
-  ];
-  runTests(alg, testData);
-}
-
-function factorial() {
+it('Factorial', () => {
   type InputData = { num: number };
   type ExpectedData = number;
 
@@ -40,18 +31,22 @@ function factorial() {
     return num * alg({ num: num - 1 });
   }
 
-  const testData: TestData<InputData, ExpectedData> = [
+  const testData = [
     { input: { num: 4 }, expected: 24 },
     { input: { num: 5 }, expected: 120 },
     { input: { num: 6 }, expected: 720 },
   ];
-  runTests(alg, testData);
-}
+  testData.forEach((data) => expect(alg(data.input)).toEqual(data.expected));
+});
+
+it('Permutations', () => {
+  //
+});
 
 // TODO: convert to JavaScript
-function permutations() {
-
-}
+// function permutations() {
+//
+// }
 
 // private void printPermutations(String str, int left, int right) {
 //   if (str == null) return;
@@ -82,5 +77,4 @@ function permutations() {
 
 export default function recursion() {
   delimeterMsg('RECURSION');
-  logF(recursionQuestions);
 }
