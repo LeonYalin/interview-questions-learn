@@ -2,10 +2,7 @@ import { delimeterMsg } from './utils';
 
 describe('Arrays questions', () => {
   it('Left rotations', () => {
-    type InputData = { arr: number[]; n: number };
-    type ExpectedData = number[];
-
-    function alg({ arr, n }: InputData): ExpectedData {
+    function alg({ arr, n }: { arr: number[]; n: number }): number[] {
       if (!arr || !arr.length || !n || arr.length === n) {
         return arr;
       }
@@ -32,10 +29,7 @@ describe('Arrays questions', () => {
 });
 
 it('Find missing number', () => {
-  type InputData = { arr: number[] };
-  type ExpectedData = number;
-
-  function alg({ arr }: InputData): ExpectedData {
+  function alg({ arr }: { arr: number[] }): number {
     if (!arr || arr.length < 2) return 0;
 
     let expectedSum = 0;
@@ -54,10 +48,7 @@ it('Find missing number', () => {
 });
 
 it('Find pair with given sum', () => {
-  type InputData = { arr: number[]; sum: number };
-  type ExpectedData = [number, number];
-
-  function alg({ arr, sum }: InputData): ExpectedData {
+  function alg({ arr, sum }: { arr: number[]; sum: number }): [number, number] {
     for (let i = 0; i < arr.length; i++) {
       for (let j = 0; j < arr.length; j++) {
         if (i !== j && arr[i] + arr[j] === sum) {
@@ -76,10 +67,7 @@ it('Find pair with given sum', () => {
 });
 
 it('Reverse an array', () => {
-  type InputData = { arr: string[] };
-  type ExpectedData = string[];
-
-  function alg({ arr }: InputData): ExpectedData {
+  function alg({ arr }: { arr: string[] }): string[] {
     if (!arr || !arr.length) return [];
 
     const resArr = Array(arr.length).fill(0);
@@ -104,10 +92,7 @@ it('Reverse an array', () => {
 });
 
 it('Find duplicates', () => {
-  type InputData = { arr: string[] };
-  type ExpectedData = string[];
-
-  function alg({ arr }: InputData): ExpectedData {
+  function alg({ arr }: { arr: string[] }): string[] {
     if (!arr || !arr.length) return [];
 
     const resArr: string[] = [];
@@ -137,11 +122,58 @@ it('Find duplicates', () => {
   testData.forEach((data) => expect(alg(data.input)).toEqual(data.expected));
 });
 
-it('Find second max', () => {
-  type InputData = { arr: number[] };
-  type ExpectedData = number;
+it('Remove duplicates', () => {
+  function alg({ arr }: { arr: string[] }): string[] {
+    const hash: Record<string, number> = {};
+    arr.forEach((item) => (hash[item] = 0));
+    return Object.keys(hash);
+  }
 
-  function alg({ arr }: InputData): ExpectedData {
+  const testData = [
+    {
+      input: { arr: ['1', '2', '1', '365', '2', '1'] },
+      expected: ['1', '2', '365'],
+    },
+    {
+      input: { arr: ['c', 'b', 'a', 'abc', 'b', 'd', 'a'] },
+      expected: ['c', 'b', 'a', 'abc', 'd'],
+    },
+  ];
+  testData.forEach((data) => expect(alg(data.input)).toEqual(data.expected));
+});
+
+it('Max repeats', () => {
+  function alg({ arr }: { arr: number[] }): number {
+    const hash: Record<string, number> = {};
+    arr.forEach((item) => {
+      if (!hash[item]) {
+        hash[item] = 1;
+      } else {
+        hash[item] = hash[item] + 1;
+      }
+    });
+    let maxVal = 0;
+    let maxKey = 0;
+    for (const [k, v] of Object.entries(hash)) {
+      if (v > maxVal) {
+        maxVal = v;
+        maxKey = Number(k);
+      }
+    }
+    return maxKey;
+  }
+
+  const testData = [
+    {
+      input: { arr: [1, 2, 1, 365, 2, 1] },
+      expected: 1,
+    },
+  ];
+  testData.forEach((data) => expect(alg(data.input)).toEqual(data.expected));
+});
+
+it('Find second max', () => {
+  function alg({ arr }: { arr: number[] }): number {
     if (!arr || !arr.length) return 0;
 
     let max = 0;
@@ -162,6 +194,73 @@ it('Find second max', () => {
     { input: { arr: [1, 3, 5, 8, 6] }, expected: 6 },
     { input: { arr: [0, 0, 1, 3, 2, 5, 4] }, expected: 4 },
     { input: { arr: [0, 0, 2, 7, 4, 5, 5] }, expected: 5 },
+  ];
+  testData.forEach((data) => expect(alg(data.input)).toEqual(data.expected));
+});
+
+it('Clone an array', () => {
+  function alg({
+    arr,
+    deep = false,
+  }: {
+    arr: (number | object)[];
+    deep?: boolean;
+  }): (number | object)[] {
+    if (deep) {
+      return JSON.parse(JSON.stringify(arr));
+    } else {
+      return arr.slice(0);
+    }
+  }
+
+  const testData = [
+    { input: { arr: [1, 3, 5, 8, 6] }, expected: [1, 3, 5, 8, 6] },
+    {
+      input: { arr: [0, 0, 1, 3, 2, 5, { a: 'a' }], deep: true },
+      expected: [0, 0, 1, 3, 2, 5, { a: 'a' }],
+    },
+  ];
+  testData.forEach((data) => expect(alg(data.input)).toEqual(data.expected));
+});
+
+it('Flatten an array', () => {
+  function alg({
+    arr,
+    shallow = false,
+    res,
+  }: {
+    arr: (number | (number | number[][])[])[];
+    shallow?: boolean;
+    res?: (number | (number | number[][])[])[];
+  }): (number | (number | number[][])[])[] {
+    if (!res) res = [];
+
+    if (shallow) {
+      // eslint-disable-next-line prefer-spread
+      return res.concat.apply(res, arr);
+    }
+
+    arr.forEach((item) => {
+      if (Array.isArray(item)) {
+        alg({ arr: item as any, shallow, res });
+      } else {
+        res.push(item);
+      }
+    });
+
+    console.log(res);
+    return res;
+  }
+
+  const testData = [
+    {
+      input: { arr: [1, [2], [3, [[4]]], [5, 6]] },
+      expected: [1, 2, 3, 4, 5, 6],
+    },
+    {
+      input: { arr: [1, [2], [3, [[4]]], [5, 6]], shallow: true },
+      expected: [1, 2, 3, [[4]], 5, 6],
+    },
   ];
   testData.forEach((data) => expect(alg(data.input)).toEqual(data.expected));
 });

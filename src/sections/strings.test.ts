@@ -54,6 +54,77 @@ describe('Strings questions', () => {
     ];
     testData.forEach((data) => expect(alg(data.input)).toEqual(data.expected));
   });
+
+  it('Protect email', () => {
+    function alg({ str }: { str: string }): string {
+      if (!str) return '';
+      if (str.indexOf('@') === -1) return str;
+      const [first, second] = str.split('@');
+      const formattedFirst =
+        first.length > 3 ? `${first.substring(0, 3)}...` : first;
+      return [formattedFirst, second].join('@');
+    }
+
+    const testData = [
+      {
+        input: { str: 'robin_singh@example.com' },
+        expected: 'rob...@example.com',
+      },
+      { input: { str: 'tes@gmail.com' }, expected: 'tes@gmail.com' },
+      { input: { str: 'lala' }, expected: 'lala' },
+    ];
+    testData.forEach((data) => expect(alg(data.input)).toEqual(data.expected));
+  });
+
+  it('Replace all substrings of a string', () => {
+    function alg({
+      str,
+      subStr,
+      repl,
+    }: {
+      str: string;
+      subStr: string;
+      repl: string;
+    }): string {
+      return str.split(new RegExp(subStr, 'i')).join(repl);
+    }
+
+    const testData = [
+      {
+        input: { str: 'hello lol', subStr: 'lo', repl: '11' },
+        expected: 'hel11 11l',
+      },
+      {
+        input: {
+          str: 'The quick brown fox jumps over the lazy dog',
+          subStr: 'the',
+          repl: '___',
+        },
+        expected: '___ quick brown fox jumps over ___ lazy dog',
+      },
+    ];
+    testData.forEach((data) => expect(alg(data.input)).toEqual(data.expected));
+  });
+
+  it('Find all occurencies of a substring in a string', () => {
+    function alg({ str, subStr }: { str: string; subStr: string }): number[] {
+      const regex = new RegExp(subStr, 'gi');
+      const result = [];
+      let re: RegExpExecArray;
+      while ((re = regex.exec(str)) !== null) {
+        result.push(re.index);
+      }
+      return result;
+    }
+
+    const testData = [
+      {
+        input: { str: 'hello lol', subStr: 'lo' },
+        expected: [3, 6],
+      },
+    ];
+    testData.forEach((data) => expect(alg(data.input)).toEqual(data.expected));
+  });
 });
 
 export default function strings() {
