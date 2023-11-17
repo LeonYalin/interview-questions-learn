@@ -1,4 +1,4 @@
-import { delimeterMsg, logF, logToHTML } from "./utils";
+import { delimeterMsg, logF, logToHTML } from './utils';
 
 function reactQuestions() {
   logToHTML(`
@@ -121,16 +121,6 @@ function reactQuestions() {
 
     =========================================================
 
-    - Props validation:
-
-    -> - PropTypes are used to check a component's props types
-      User.propTypes = {
-        name: PropTypes.string.isRequired,
-        age: PropTypes.number.isRequired
-      }
-
-    =========================================================
-
     - Render props:
 
     -> - Render props is a technique for sharing code between components by passing the value as a function.
@@ -154,3 +144,47 @@ export default function react() {
   delimeterMsg('REACT');
   logF(reactQuestions);
 }
+
+// https://codesandbox.io/s/pensive-field-8nj7qd?file=/src/ProgressBar.tsx
+// https://www.w3schools.com/css/css_colors_rgb.asp
+
+// import React, { FC } from 'react';
+
+// const max = 255;
+
+// interface ProgressBarProps {
+//   progress: number;
+// }
+
+// function getColorPerc(progress: number) {
+//   if (progress === 0) return 0;
+//   const result = Math.round((max / 100) * progress);
+//   return result;
+// }
+
+// function getBgColor(progress: number, color: 'r' | 'g' | 'b') {
+//   switch (color) {
+//     case 'r':
+//       return `rgb(${255 - getColorPerc(progress)}, 0, 0`;
+//     default:
+//       return 'white';
+//   }
+// }
+
+// export const ProgressBar: FC<ProgressBarProps> = ({ progress }) => {
+//   return (
+//     <>
+//       <div className={'progress-bar-wrapper'}>
+//         <div
+//           style={{
+//             width: progress + '%',
+//             height: '100%',
+//             background: getBgColor(progress, 'r'),
+//           }}
+//         >
+//           {progress}
+//         </div>
+//       </div>
+//     </>
+//   );
+// };

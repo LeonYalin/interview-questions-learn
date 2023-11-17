@@ -186,6 +186,168 @@ function javasctiptQuestions() {
     `);
 }
 
+function typeCoercion() {
+  logToHTML(`
+
+  Examples
+
+  =========================================================
+
+  true + false             // 1
+  12 / "6"                 // 2
+  "number" + 15 + 3        // 'number153'
+  15 + 3 + "number"        // '18number'
+  [1] > null               // true
+  "foo" + + "bar"          // 'fooNaN'
+  'true' == true           // false
+  false == 'false'         // false
+  null == ''               // false
+  !!"false" == !!"true"    // true
+  ['x'] == 'x'             // true 
+  [] + null + 1            // 'null1'
+  [1,2,3] == [1,2,3]       // false
+  {}+[]+{}+[1]             // '0[object Object]1'
+  !+[]+[]+![]              // 'truefalse'
+  new Date(0) - 0          // 0
+  new Date(0) + 0          // 'Thu Jan 01 1970 02:00:00(EET)0'
+
+  =========================================================
+
+  true + false
+  ==> 1 + 0
+  ==> 1
+
+  =========================================================
+  
+  12 / '6'
+  ==> 12 / 6
+  ==>> 2
+  
+  =========================================================
+  
+  “number” + 15 + 3 
+  ==> "number15" + 3 
+  ==> "number153"
+
+  =========================================================
+  
+  15 + 3 + "number" 
+  ==> 18 + "number" 
+  ==> "18number"
+  
+  =========================================================
+  
+  [1] > null
+  ==> '1' > 0
+  ==> 1 > 0
+  ==> true
+  
+  =========================================================
+  
+  "foo" + + "bar" 
+  ==> "foo" + (+"bar") 
+  ==> "foo" + NaN 
+  ==> "fooNaN"
+
+  =========================================================
+  
+  'true' == true
+  ==> NaN == 1
+  ==> false
+  
+  false == 'false'   
+  ==> 0 == NaN
+  ==> false
+
+  =========================================================
+  
+  null == ''
+  ==> false
+  
+  =========================================================
+  
+  !!"false" == !!"true"  
+  ==> true == true
+  ==> true
+
+  =========================================================
+  
+  ['x'] == 'x'  
+  ==> 'x' == 'x'
+  ==>  true
+
+  =========================================================
+  
+  [] + null + 1  
+  ==>  '' + null + 1  
+  ==>  'null' + 1  
+  ==> 'null1'
+
+  =========================================================
+
+  0 || "0" && {}  
+  ==>  (0 || "0") && {}
+  ==> (false || true) && true  // internally
+  ==> "0" && {}
+  ==> true && true             // internally
+  ==> {}
+
+  =========================================================
+  
+  [1,2,3] == [1,2,3]
+  ==>  false
+  
+  =========================================================
+  
+  {}+[]+{}+[1]
+  ==> +[]+{}+[1]
+  ==> 0 + {} + [1]
+  ==> 0 + '[object Object]' + [1]
+  ==> '0[object Object]' + [1]
+  ==> '0[object Object]' + '1'
+  ==> '0[object Object]1'
+
+  =========================================================
+  
+  !+[]+[]+![]  
+  ==> (!+[]) + [] + (![])
+  ==> !0 + [] + false
+  ==> true + [] + false
+  ==> true + '' + false
+  ==> 'truefalse'
+
+  =========================================================
+  
+  new Date(0) - 0
+  ==> 0 - 0
+  ==> 0
+
+  =========================================================
+  
+  new Date(0) + 0
+  ==> 'Thu Jan 01 1970 02:00:00 GMT+0200 (EET)' + 0
+  ==> 'Thu Jan 01 1970 02:00:00 GMT+0200 (EET)0'
+  
+  `);
+
+  function videoInterview() {
+    logToHTML(`
+      Video:
+      https://www.youtube.com/watch?v=p4PmANxsckA
+
+      Likns to learn more:
+      https://www.freecodecamp.org/news/js-type-coercion-explained-27ba3d9a2839/
+      https://www.freecodecamp.org/news/coercion-and-type-conversion-in-javascript/
+      https://www.freecodecamp.org/news/the-difference-between-arrow-functions-and-normal-functions/
+      https://www.freecodecamp.org/news/what-is-hoisting-in-javascript/
+      https://www.freecodecamp.org/news/prototypes-and-inheritance-in-javascript/
+      https://www.linkedin.com/pulse/unraveling-javascript-event-loop-comprehensive-guide-michael-baker/
+      https://javascript.plainenglish.io/solid-principle-in-javascript-part-1-4f67d8f9a31f
+      https://www.freecodecamp.org/news/how-to-use-currying-and-composition-in-javascript/
+    `);
+  }
+}
+
 describe('JavaScript questions', () => {
   it('Add spaces between chars in the string', () => {
     type InputData = { str: string };
