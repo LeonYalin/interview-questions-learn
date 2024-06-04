@@ -1,3 +1,9 @@
+
+
+
+
+
+
 import { delimeterMsg, logToHTML } from './utils';
 
 function javasctiptQuestions() {
@@ -327,6 +333,96 @@ function typeCoercion() {
   new Date(0) + 0
   ==> 'Thu Jan 01 1970 02:00:00 GMT+0200 (EET)' + 0
   ==> 'Thu Jan 01 1970 02:00:00 GMT+0200 (EET)0'
+
+  =========================================================
+
+  console.log(1);
+
+  setTimeout(() => console.log(2));
+
+  Promise.resolve().then(() => console.log(3));
+
+  Promise.resolve().then(() => setTimeout(() => console.log(4)));
+
+  Promise.resolve().then(() => console.log(5));
+
+  setTimeout(() => console.log(6));
+
+  console.log(7);
+
+  ==> 1,7,3,5,2,6,4
+
+  =========================================================
+
+  function foo() {
+    const x = 10;
+    return {
+      x: 20,
+      bar: () => {
+        console.log(this.x);
+      },
+      baz: function () {
+        console.log(this.x);
+      }
+    }
+  }
+  
+  const obj1 = foo();
+  obj1.bar(); //?
+  obj1.baz(); //?
+  
+  const obj2 = foo.call({ x: 30 });
+  let y = obj1.bar;
+  let z = obj1.baz;
+  y(); //?
+  z(); //?
+  
+  obj2.bar(); //?
+  obj2.baz(); //?
+
+  ==> undefined,20,undefined,undefined,30,20
+
+  =========================================================
+
+  Promise
+  .reject('a')
+  .then(p => p + '1', p => p + '2')
+  .catch(p => p + 'b')
+  .catch(p => p + 'c')
+  .then(p => p + 'd1')
+  .then('d2')
+  .then(p => p + 'd3')
+  .catch(p => p + 'b')
+  .finally(p => p + 'e')
+  .then(p => console.log(p))
+
+  ==> 'a2d1d3'
+
+  =========================================================
+
+  Promise.reject('a')
+  .catch(p => {
+    console.log('catch 1', p);
+    return p + 'b';
+  })
+  .catch(p => {
+    console.log('catch 2', p);
+    return p + 'c';
+  })
+  .then(p => {
+    console.log('then 1', p);
+    return p + 'd';
+  })
+  .finally(p => {
+    console.log('finally 1', p);
+    return p + 'e';
+  })
+  .then(p => {
+    console.log('then 2', p);
+    console.log(p);
+  });
+
+  ==> 'abd'
   
   `);
 
